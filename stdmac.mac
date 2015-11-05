@@ -1,0 +1,58 @@
+; GNU/Linux 32b
+%define sys_write 4;
+%define sys_read	3
+%define sys_exit 	1	
+%define std_out 	1 
+;%define std_err	2
+%define std_in		1;
+;%define
+;%define
+;%define
+
+
+
+%macro write 2			;string, len_string
+	pop	eax
+	pop	ebx
+	pop	ecx
+	pop	edx
+
+	mov	eax, sys_write
+	mov	ebx, std_out
+	mov	ecx, %1
+	mov	edx, %2
+	int	80h
+	
+	push	edx
+	push	ecx
+	push	ebx
+	push	eax
+
+%endmacro
+
+%macro read 2			;string, len_string
+	pop	eax
+	pop	ebx
+	pop	ecx
+	pop	edx
+
+	mov	eax, sys_read
+	mov	ebx, std_in
+	mov	ecx, %1
+	mov	edx, %2
+	int	80h
+	
+	push	edx
+	push	ecx
+	push	ebx
+	push	eax
+
+%endmacro
+
+
+%macro return 1
+	mov	eax, 1	; servicio de salida
+	mov	ebx, %1	; codigo de salia = 0 -> sin problemas
+	int	80h
+%endmacro
+
